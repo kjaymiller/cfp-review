@@ -1,0 +1,36 @@
+Table User {
+  id integer [primary key]
+  username varchar
+  email varchar
+  groups varchar [note: "Reviewer role"]
+}
+
+Table Tag {
+  id integer [primary key]
+  name varchar
+}
+
+Table Proposal {
+  id integer [primary key]
+  author_id integer [ref: > User.id]
+  title varchar
+  abstract text
+  private_notes text
+  status varchar [note: "Draft, Review Requested, Archived"]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ProposalTag {
+  proposal_id integer [ref: > Proposal.id]
+  tag_id integer [ref: > Tag.id]
+}
+
+Table Review {
+  id integer [primary key]
+  proposal_id integer [ref: > Proposal.id]
+  reviewer_id integer [ref: > User.id]
+  score integer [note: "-1, 0, 1"]
+  feedback text
+  created_at timestamp
+}

@@ -1,38 +1,33 @@
 # CFP-Review
 
-A Django-based application for managing Call for Papers (CFP) processes. This system facilitates the entire lifecycle of a conference session selection, from proposal submission to reviewing and community discussion.
+A Django-based application serving as a **Speaker Portfolio and Mentorship Platform**. This system allows speakers to maintain a library of their talk proposals, refine them with private notes, and request feedback from a community of reviewers/mentors before submitting to real conferences.
 
 ## Features
 
 Based on the project's [MERISE Analysis](MERISE_PLAN.md), the system includes:
 
-*   **CFP Management**: Organizers can create and manage specific Call for Papers events with start and end dates.
-*   **Proposal Submission**: Speakers can submit "Talk" or "Workshop" proposals, including abstracts.
-*   **Review System**: Reviewers can evaluate proposals using a simple scoring system (-1, 0, +1).
-*   **Community Interaction**:
-    *   **Comments**: Users can discuss proposals.
-    *   **Starring**: Users can "star" valuable comments.
-*   **Advanced Features**:
-    *   **Similarity Search**: Leveraging `pgvector`, the system supports finding similar proposals and comments based on content embeddings.
-    *   **Moderation**: A reporting system allowing users to flag abusive proposals or comments.
+*   **Proposal Management**: Speakers can create, edit, and organize their talk ideas.
+*   **Privacy Controls**: Proposals start as **Drafts** (private) and can be toggled to **Review Requested** (visible to mentors).
+*   **Mentorship System**: Users with the `Reviewer` role can browse requested proposals and provide structured feedback.
+*   **Categorization**: A tagging system (e.g., "Python", "Cloud", "Career") helps reviewers find relevant content.
+*   **Private Notes**: Speakers can keep "notes to self" attached to proposals that reviewers do not see (or do see, depending on final implementation choice - currently defined as private).
 
 ## Data Model
 
 The core entities defined in the system are:
 
-*   **User**: Standard Django user extended to support roles like Speaker, Reviewer, and Organizer.
-*   **CFP**: The event definition.
-*   **Proposal**: Submissions linked to a Speaker and a CFP.
-*   **Review**: Linked to a Proposal and a Reviewer.
-*   **Comment**: Textual feedback on proposals.
-*   **Report**: Polymorphic model to flag inappropriate content.
+*   **User**: Standard Django user with `Reviewer` group designation.
+*   **Proposal**: The central content object.
+*   **Review**: Feedback linked to a Proposal.
+*   **Tag**: Categories for filtering.
+
+![Database Schema](schema.svg)
 
 ## Tech Stack
 
 *   **Language**: Python
 *   **Framework**: Django
 *   **Database**: PostgreSQL
-*   **Extensions**: `pgvector` (for vector similarity search)
 *   **Package Manager**: `uv`
 
 ## Getting Started
@@ -41,7 +36,7 @@ The core entities defined in the system are:
 
 *   Python 3.12+
 *   [uv](https://github.com/astral-sh/uv)
-*   PostgreSQL (with `vector` extension support)
+*   PostgreSQL
 
 ### Installation
 
@@ -51,11 +46,9 @@ The core entities defined in the system are:
     ```
 
 2.  **Database Setup:**
-    Ensure your PostgreSQL database is running. You will likely need to create the database and enable the vector extension:
+    Ensure your PostgreSQL database is running.
     ```sql
     CREATE DATABASE cfp_db;
-    \c cfp_db
-    CREATE EXTENSION vector;
     ```
     *(Note: Adjust your `settings.py` or `.env` to point to this database)*
 
