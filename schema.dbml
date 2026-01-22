@@ -10,13 +10,19 @@ Table Tag {
   name varchar
 }
 
+Enum proposal_status {
+  Draft
+  Review_Requested
+  Archived
+}
+
 Table Proposal {
   id integer [primary key]
   author_id integer [ref: > User.id]
   title varchar
   abstract text
   private_notes text
-  status varchar [note: "Draft, Review Requested, Archived"]
+  status proposal_status [note: "Indexed"]
   created_at timestamp
   updated_at timestamp
 }

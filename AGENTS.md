@@ -2,6 +2,13 @@
 
 This document defines the operational modes for the agent working on this project.
 
+## Documentation Compliance
+
+The agent must adhere to the standards defined in the project documentation. Before planning or implementing changes, review the relevant documents:
+
+*   **`SYSTEM_DESIGN.md`**: Consult for system architecture, data models, user flows, and backend technology standards (Python, Django, etc.).
+*   **`FRONTEND_DESIGN.md`**: Consult for visual design, UI components, CSS rules, and frontend interactions (HTMX, Alpine.js).
+
 ## Current Mode: **BUILD**
 
 ## Mode Definitions

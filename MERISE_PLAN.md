@@ -48,7 +48,7 @@ Unlike standard conference management tools, this system acts as a **Speaker Por
 - `title` (VarChar)
 - `abstract` (Text) - *The public description*
 - `private_notes` (Text) - *Notes for the speaker (outlines, etc)*
-- `status` (Enum: Draft, Review Requested, Archived)
+- `status` (Enum: Draft, Review Requested, Archived) - *Indexed for performance*
 - `created_at` (DateTime)
 - `updated_at` (DateTime)
 *Many-to-Many relationship with Tag*
@@ -73,3 +73,14 @@ Unlike standard conference management tools, this system acts as a **Speaker Por
 - **Discovery**: `Review Requested` proposals are visible to Authors, Reviewers, and Organizers.
 - **Reviewing**: A user cannot review their own proposal.
 - **Organizers**: Can see `Review Requested` proposals and existing reviews. Can "Select" (bookmark) proposals. Can also submit Reviews (same as Reviewers).
+
+## 5. Physical Data Model & Optimization
+
+### Indexing Strategy
+To ensure performant queries for the primary user flows (Reviewers and Organizers filtering proposals), the following indexes should be applied:
+
+*   **`Proposal.status`**: A standard B-Tree index is required. This field is the primary filter for Reviewers (finding "Review Requested" talks) and Organizers (scouting).
+*   **`Proposal.author_id`**: Foreign key index for retrieving a user's portfolio.
+*   **`Review.proposal_id`**: Foreign key index for aggregating reviews on a proposal.
+*   **`Selection.organizer_id`**: Foreign key index for retrieving an organizer's shortlist.
+

@@ -32,7 +32,7 @@ Additionally, it serves as a talent pool for **Organizers** to scout for speaker
 
 ### Core Entities
 *   **User**: Standard Django user.
-*   **Proposal**: Owned by Author.
+*   **Proposal**: Owned by Author. Uses `status` Enum (indexed).
 *   **Review**: Feedback by Reviewer.
 *   **Selection**: Shortlist entry by Organizer.
 *   **Tag**: Categories.
