@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:17.7
     environment:
-      - POSTGRES_DB=cfp_review
+      - POSTGRES_DB=defaultdb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
