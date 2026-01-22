@@ -10,8 +10,34 @@ from django.views.generic import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Proposal
-from .forms import ProposalForm
+from .models import Proposal, RoleRequest
+from .forms import ProposalForm, RoleRequestForm
+from django.contrib import messages
+
+
+class RoleRequestCreateView(LoginRequiredMixin, CreateView):
+    model = RoleRequest
+    form_class = RoleRequestForm
+    template_name = "proposals/role_request_form.html"
+    success_url = reverse_lazy("proposals:list")
+
+    def form_valid(self, form):
+        # Check if user already has a pending request for this role
+        existing_request = RoleRequest.objects.filter(
+            user=self.request.user,
+            role=form.cleaned_data["role"],
+            status=RoleRequest.Status.PENDING,
+        ).exists()
+
+        if existing_request:
+            messages.warning(
+                self.request, "You already have a pending request for this role."
+            )
+            return redirect("proposals:list")
+
+        form.instance.user = self.request.user
+        messages.success(self.request, "Role request submitted successfully.")
+        return super().form_valid(form)
 
 
 class ProposalListView(LoginRequiredMixin, ListView):

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Request Role{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h1>Request a Role</h1>
+    <p>Request to become a Reviewer or Organizer. Your request will be reviewed by an administrator.</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="{{ form.role.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Role</label>
+            {{ form.role }}
+            {% if form.role.errors %}
+                <div class="text-error" style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.role.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+            <a href="{% url 'proposals:list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
