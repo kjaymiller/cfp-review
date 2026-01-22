@@ -1,6 +1,14 @@
 from django.urls import path
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView, ListView
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+    DetailView,
+    ListView,
+    DeleteView,
+    View,
+)
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Proposal
 from .forms import ProposalForm
@@ -45,3 +53,26 @@ class ProposalDetailView(LoginRequiredMixin, DetailView):
     model = Proposal
     template_name = "proposals/proposal_detail.html"
     context_object_name = "proposal"
+
+
+class ProposalDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Proposal
+    template_name = "proposals/proposal_confirm_delete.html"
+    success_url = reverse_lazy("proposals:list")
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+
+class ProposalSubmitView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def post(self, request, pk):
+        proposal = get_object_or_404(Proposal, pk=pk)
+        if proposal.status == Proposal.Status.DRAFT:
+            proposal.status = Proposal.Status.REVIEW_REQUESTED
+            proposal.save()
+        return redirect("proposals:detail", pk=pk)
+
+    def test_func(self):
+        proposal = get_object_or_404(Proposal, pk=self.kwargs["pk"])
+        return proposal.author == self.request.user
