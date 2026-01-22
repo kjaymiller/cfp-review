@@ -46,3 +46,16 @@ Additionally, it serves as a talent pool for **Organizers** to scout for speaker
 *   **Speaker Dashboard**: "My Proposals".
 *   **Reviewer Dashboard**: "Needs Review" (Feed).
 *   **Organizer Dashboard**: "Scouted Talks" (Shortlist) & "Discover" (Feed).
+
+## 5. Technology Stack & Language Rules
+
+### Backend
+*   **Language**: Python >= 3.13
+*   **Framework**: Django >= 6.0.1
+*   **Package Manager**: `uv`
+*   **Database**: PostgreSQL
+
+### Development Standards
+*   Follow standard Django conventions (MTV pattern).
+*   Use `neapolitan` for CRUD views where applicable.
+*   Use `django-allauth` for authentication.

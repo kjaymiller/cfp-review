@@ -1,4 +1,4 @@
-# CFP-Review Design System
+# CFP-Review Frontend Design Guide
 
 ## 1. Design Philosophy
 **"The Green Room for the World Stage"**
