@@ -37,7 +37,11 @@
 
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; {% now "Y" %} CFP Review</p>
+            <p>&copy; {% now "Y" %} CFP Review
+                {% if user.is_authenticated %}
+                <span style="margin: 0 0.5rem;">|</span> <a href="{% url 'proposals:request_role' %}" style="color: inherit; text-decoration: underline; font-size: 0.9em;">Request Role</a>
+                {% endif %}
+            </p>
         </div>
     </footer>
 </body>

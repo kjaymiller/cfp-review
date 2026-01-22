@@ -1,5 +1,14 @@
 from django import forms
-from .models import Review, Proposal
+from .models import Review, Proposal, RoleRequest
+
+
+class RoleRequestForm(forms.ModelForm):
+    class Meta:
+        model = RoleRequest
+        fields = ["role"]
+        widgets = {
+            "role": forms.Select(attrs={"class": "form-control"}),
+        }
 
 
 class ReviewForm(forms.ModelForm):
