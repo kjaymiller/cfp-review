@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}CFP Review - The Green Room for the World Stage{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>The Green Room for the World Stage</h1>
+    <p>
+        Refine your conference proposals, get mentorship, and prepare for the spotlight.
+        A supportive community for speakers to draft, review, and polish their talks.
+    </p>
+    
+    <div style="margin-top: 2rem;">
+        {% if user.is_authenticated %}
+            <a href="{% url 'proposals:list' %}" class="btn btn-primary">Go to Dashboard</a>
+        {% else %}
+            <a href="{% url 'account_signup' %}" class="btn btn-primary">Start Your Journey</a>
+            <a href="{% url 'account_login' %}" class="btn btn-secondary" style="margin-left: 1rem;">Log In</a>
+        {% endif %}
+    </div>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 4rem;">
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h3 style="color: var(--color-royal-blue);">Draft Proposals</h3>
+        <p>Keep your talk ideas in one place. Iterate on them privately until you're ready to share.</p>
+    </div>
+    
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h3 style="color: var(--color-stage-orange);">Get Feedback</h3>
+        <p>Request reviews from experienced mentors. Get structured feedback to improve your abstract.</p>
+    </div>
+    
+    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h3 style="color: var(--color-teal);">Connect</h3>
+        <p>Be discovered by organizers looking for speakers like you. Build your portfolio.</p>
+    </div>
+</section>
+{% endblock %}

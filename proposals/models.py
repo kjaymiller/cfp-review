@@ -30,6 +30,11 @@ class Proposal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+
+        return reverse("proposals:detail", kwargs={"pk": self.pk})
+
     def __str__(self):
         return self.title
 

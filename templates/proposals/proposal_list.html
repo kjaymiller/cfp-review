@@ -8,21 +8,20 @@
         <h1>My Proposals</h1>
     </div>
     <div class="col text-right">
-        {# Placeholder for Create Proposal button if needed later #}
-        {# <a href="#" class="btn btn-primary">New Proposal</a> #}
+        <a href="{% url 'proposals:create' %}" class="btn btn-primary bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">New Proposal</a>
     </div>
 </div>
 
-<div class="tabs mb-lg">
-    <a href="{% url 'proposals:proposal-list' %}" class="tab {% if not request.GET.status %}active{% endif %}">All</a>
-    <a href="{% url 'proposals:proposal-list' %}?status=draft" class="tab {% if request.GET.status == 'draft' %}active{% endif %}">Drafts</a>
-    <a href="{% url 'proposals:proposal-list' %}?status=review_requested" class="tab {% if request.GET.status == 'review_requested' %}active{% endif %}">Review Requested</a>
-    <a href="{% url 'proposals:proposal-list' %}?status=archived" class="tab {% if request.GET.status == 'archived' %}active{% endif %}">Archived</a>
+<div class="tabs mb-lg flex gap-4 border-b mb-6">
+    <a href="{% url 'proposals:list' %}" class="tab pb-2 {% if not request.GET.status %}border-b-2 border-blue-500 font-medium{% else %}text-gray-500 hover:text-gray-700{% endif %}">All</a>
+    <a href="{% url 'proposals:list' %}?status=draft" class="tab pb-2 {% if request.GET.status == 'draft' %}border-b-2 border-blue-500 font-medium{% else %}text-gray-500 hover:text-gray-700{% endif %}">Drafts</a>
+    <a href="{% url 'proposals:list' %}?status=review_requested" class="tab pb-2 {% if request.GET.status == 'review_requested' %}border-b-2 border-blue-500 font-medium{% else %}text-gray-500 hover:text-gray-700{% endif %}">Review Requested</a>
+    <a href="{% url 'proposals:list' %}?status=archived" class="tab pb-2 {% if request.GET.status == 'archived' %}border-b-2 border-blue-500 font-medium{% else %}text-gray-500 hover:text-gray-700{% endif %}">Archived</a>
 </div>
 
-<div class="grid grid-3">
-    {% for proposal in object_list %}
-        {% include "components/card.html" with title=proposal.title status=proposal.status url=proposal.get_absolute_url|default:"#" content=proposal.abstract meta=proposal.updated_at|date:"M d, Y" %}
+<div class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    {% for proposal in proposals %}
+        {% include "components/card.html" with title=proposal.title status=proposal.get_status_display url=proposal.get_absolute_url content=proposal.abstract meta=proposal.updated_at|date:"M d, Y" %}
     {% empty %}
         <div class="col-full text-center py-lg">
             <p class="text-muted">No proposals found.</p>
