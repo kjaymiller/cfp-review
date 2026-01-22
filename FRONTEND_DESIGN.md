@@ -63,7 +63,7 @@ Highly legible, professional sans-serif for reading feedback and drafting propos
 
 ### Cards (Proposals)
 *   Styled like **Event Tickets** or **Program Entries**.
-*   **Left edge**: Color-coded status strip (Draft=Grey, Review Requested=Royal Blue, Accepted=Gold).
+*   **Left edge**: Color-coded status strip (Draft=Grey, Review Requested=Royal Blue, Archived=Backstage Grey).
 *   **Shadows**: "Lifted" shadow (`box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1)`) to make them feel like physical objects on a desk.
 
 ### Buttons

@@ -38,7 +38,7 @@ The core entities defined in the system are:
 
 ### Prerequisites
 
-*   Python 3.12+
+*   Python 3.13+
 *   [uv](https://github.com/astral-sh/uv)
 *   PostgreSQL
 
