@@ -2,7 +2,7 @@
 
 This document defines the operational modes for the agent working on this project.
 
-## Current Mode: **PLAN**
+## Current Mode: **BUILD**
 
 ## Mode Definitions
 
