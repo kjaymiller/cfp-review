@@ -83,3 +83,43 @@ class Selection(models.Model):
 
     def __str__(self):
         return f"Selection: {self.proposal.title}"
+
+
+class RoleRequest(models.Model):
+    class Role(models.TextChoices):
+        REVIEWER = "reviewer", _("Reviewer")
+        ORGANIZER = "organizer", _("Organizer")
+
+    class Status(models.TextChoices):
+        PENDING = "pending", _("Pending")
+        APPROVED = "approved", _("Approved")
+        REJECTED = "rejected", _("Rejected")
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="role_requests", on_delete=models.CASCADE
+    )
+    role = models.CharField(max_length=20, choices=Role.choices)
+    status = models.CharField(
+        max_length=20, choices=Status.choices, default=Status.PENDING
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        from django.contrib.auth.models import Group
+
+        super().save(*args, **kwargs)
+
+        if self.status == self.Status.APPROVED:
+            # Map role choice to Group name
+            group_name = None
+            if self.role == self.Role.REVIEWER:
+                group_name = "Reviewer"
+            elif self.role == self.Role.ORGANIZER:
+                group_name = "Organizer"
+
+            if group_name:
+                group, _ = Group.objects.get_or_create(name=group_name)
+                self.user.groups.add(group)
+
+    def __str__(self):
+        return f"{self.user} requests {self.role} ({self.status})"
