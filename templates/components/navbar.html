@@ -1,0 +1,22 @@
+<header class="main-header">
+    <div class="container main-nav">
+        <a href="/" class="nav-brand">
+            <span style="color: var(--color-spotlight-gold); font-size: 1.2em; line-height: 1;">●</span> 
+            CFP Review
+        </a>
+        <ul class="nav-links">
+            {% if user.is_authenticated %}
+                <li>Hello, {{ user.username }}</li>
+                <li>
+                    <form method="post" action="{% url 'account_logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary" style="border: none; background: none; padding: 0; color: inherit; font-weight: normal;">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'account_login' %}">Login</a></li>
+                <li><a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>

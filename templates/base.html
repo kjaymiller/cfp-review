@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CFP Review{% endblock %}</title>
     
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
@@ -15,31 +20,13 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <header>
-        <nav>
-            <h1><a href="/">CFP Review</a></h1>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li>Hello, {{ user.username }}</li>
-                    <li>
-                        <form method="post" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            <button type="submit">Logout</button>
-                        </form>
-                    </li>
-                {% else %}
-                    <li><a href="{% url 'account_login' %}">Login</a></li>
-                    <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+    {% include "components/navbar.html" %}
 
-    <main>
+    <main class="container mt-lg">
         {% if messages %}
-            <ul class="messages">
+            <ul class="messages" style="list-style: none; padding: 0; margin-bottom: 1rem;">
                 {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                <li class="alert {{ message.tags }}" style="padding: 1rem; background: #fff; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 0.5rem;">{{ message }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
@@ -48,8 +35,10 @@
         {% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; {% now "Y" %} CFP Review</p>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} CFP Review</p>
+        </div>
     </footer>
 </body>
 </html>
