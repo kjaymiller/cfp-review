@@ -84,14 +84,14 @@ class ProposalViewTests(TestCase):
     def test_my_proposals_view_requires_login(self):
         from django.urls import reverse
 
-        response = self.client.get(reverse("proposals:proposal_list"))
+        response = self.client.get(reverse("proposals:proposal-list"))
         self.assertNotEqual(response.status_code, 200)
 
     def test_my_proposals_view_lists_own_proposals(self):
         from django.urls import reverse
 
         self.client.force_login(self.user)
-        response = self.client.get(reverse("proposals:proposal_list"))
+        response = self.client.get(reverse("proposals:proposal-list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Draft Proposal")
         self.assertContains(response, "Active Proposal")
@@ -101,7 +101,7 @@ class ProposalViewTests(TestCase):
         from django.urls import reverse
 
         self.client.force_login(self.user)
-        response = self.client.get(reverse("proposals:proposal_list") + "?status=draft")
+        response = self.client.get(reverse("proposals:proposal-list") + "?status=draft")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Draft Proposal")
         self.assertNotContains(response, "Active Proposal")
@@ -111,8 +111,9 @@ class ProposalViewTests(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.get(
-            reverse("proposals:proposal_list") + "?status=review_requested"
+            reverse("proposals:proposal-list") + "?status=review_requested"
         )
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Draft Proposal")
         self.assertContains(response, "Active Proposal")
+        self.assertNotContains(response, "Other Proposal")

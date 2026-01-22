@@ -1,12 +1,11 @@
-from django.views.generic import ListView
+from neapolitan.views import CRUDView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Proposal
 
 
-class ProposalListView(LoginRequiredMixin, ListView):
+class ProposalView(LoginRequiredMixin, CRUDView):
     model = Proposal
-    template_name = "proposals/proposal_list.html"
-    context_object_name = "proposals"
+    fields = ["title", "abstract", "status", "tags"]
 
     def get_queryset(self):
         queryset = Proposal.objects.filter(author=self.request.user)
