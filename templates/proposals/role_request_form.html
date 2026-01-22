@@ -3,25 +3,58 @@
 {% block title %}Request Role{% endblock %}
 
 {% block content %}
-<div class="card" style="max-width: 600px; margin: 0 auto;">
-    <h1>Request a Role</h1>
-    <p>Request to become a Reviewer or Organizer. Your request will be reviewed by an administrator.</p>
+<div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <h1 style="margin-bottom: 0.5rem;">Request a Role</h1>
+    <p style="margin-bottom: 2rem; color: #666;">Choose how you would like to contribute to the event.</p>
     
     <form method="post">
         {% csrf_token %}
         
-        <div class="form-group" style="margin-bottom: 1.5rem;">
-            <label for="{{ form.role.id_for_label }}" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Role</label>
-            {{ form.role }}
-            {% if form.role.errors %}
-                <div class="text-error" style="color: #dc2626; font-size: 0.875rem; margin-top: 0.25rem;">{{ form.role.errors }}</div>
-            {% endif %}
+        {% if form.errors %}
+            <div class="alert alert-error" style="background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            
+            <!-- Reviewer Option -->
+            <button type="submit" name="role" value="reviewer" 
+                    class="role-card"
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                <h2 style="margin-top: 0; margin-bottom: 0.5rem;">Reviewer</h2>
+                <p style="color: #666; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">
+                    Help shape the conference content. Review proposals, provide constructive feedback to speakers, and score talks to help select the best program.
+                </p>
+                <span class="btn btn-primary" style="width: 100%; text-align: center;">Become a Reviewer</span>
+            </button>
+
+            <!-- Organizer Option -->
+            <button type="submit" name="role" value="organizer" 
+                    class="role-card"
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
+                <h2 style="margin-top: 0; margin-bottom: 0.5rem;">Organizer</h2>
+                <p style="color: #666; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">
+                    Curate the final lineup. Scout for specific topics, view aggregate scores from reviewers, and manage the selection process.
+                </p>
+                <span class="btn btn-secondary" style="width: 100%; text-align: center;">Become an Organizer</span>
+            </button>
+
         </div>
         
-        <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 2rem;">
-            <button type="submit" class="btn btn-primary">Submit Request</button>
-            <a href="{% url 'proposals:list' %}" class="btn btn-secondary">Cancel</a>
+        <div style="margin-top: 2rem;">
+            <a href="{% url 'proposals:list' %}" style="color: #666; text-decoration: underline;">Cancel and go back</a>
         </div>
     </form>
 </div>
+
+<style>
+    .role-card:hover {
+        border-color: var(--color-primary);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+</style>
 {% endblock %}
