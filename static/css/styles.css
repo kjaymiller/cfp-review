@@ -1,47 +1,244 @@
+:root {
+    /* Primary: "The Spotlight" */
+    --color-spotlight-gold: #F6E05E;
+    --color-royal-blue: #3182CE;
+
+    /* Secondary: "Global Voices" */
+    --color-teal: #319795;
+    --color-stage-orange: #DD6B20;
+    --color-indigo: #4C51BF;
+
+    /* Neutrals: "The Script" */
+    --color-ink-black: #1A202C;
+    --color-paper-white: #FFFFFF;
+    --color-backstage-grey: #F7FAFC;
+    --color-grey-300: #E2E8F0;
+    --color-grey-500: #A0AEC0;
+
+    /* Typography */
+    --font-heading: 'Rubik', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+
+    /* Layout */
+    --container-max-width: 1200px;
+    --header-height: 64px;
+    --border-radius-md: 0.375rem;
+    --border-radius-full: 9999px;
+
+    /* Effects */
+    --shadow-lifted: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition-base: all 0.2s ease-in-out;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: system-ui, -apple-system, sans-serif;
-    line-height: 1.5;
+    font-family: var(--font-body);
+    background-color: var(--color-backstage-grey);
+    color: var(--color-ink-black);
     margin: 0;
     padding: 0;
-    color: #333;
+    line-height: 1.5;
 }
 
-header {
-    background-color: #f4f4f4;
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-ink-black);
+    margin-top: 0;
 }
 
-nav {
+a {
+    color: var(--color-royal-blue);
+    text-decoration: none;
+    transition: var(--transition-base);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Layout Utility */
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.5rem;
+    border-radius: var(--border-radius-full);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
+    border: 2px solid transparent;
+    text-decoration: none;
+    font-family: var(--font-body);
+}
+
+.btn:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: var(--color-royal-blue);
+    color: var(--color-paper-white);
+    box-shadow: 0 4px 6px -1px rgba(49, 130, 206, 0.3);
+}
+
+.btn-primary:hover {
+    filter: brightness(110%);
+    box-shadow: 0 6px 8px -1px rgba(49, 130, 206, 0.4);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--color-teal);
+    color: var(--color-teal);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(49, 151, 149, 0.1);
+}
+
+/* Cards (Proposals) */
+.card {
+    background-color: var(--color-paper-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-lifted);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--color-grey-300);
+    position: relative;
+    padding-left: var(--spacing-sm); /* Space for the status strip */
+}
+
+/* Status Strip */
+.card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--spacing-sm);
+    background-color: var(--color-grey-500); /* Default to Draft/Grey */
+}
+
+.card.status-review::before {
+    background-color: var(--color-royal-blue);
+}
+
+.card.status-accepted::before {
+    background-color: var(--color-spotlight-gold);
+}
+
+.card.status-rejected::before {
+    background-color: var(--color-stage-orange);
+}
+
+.card-content {
+    padding: var(--spacing-lg);
+}
+
+.card-title {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    color: var(--color-grey-500);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Navigation */
+.main-header {
+    background-color: var(--color-paper-white);
+    border-bottom: 1px solid var(--color-grey-300);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 800px;
-    margin: 0 auto;
+    width: 100%;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
+.nav-brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-royal-blue);
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    gap: var(--spacing-xs);
 }
 
-nav a {
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-lg);
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--color-ink-black);
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: var(--color-royal-blue);
     text-decoration: none;
-    color: #007bff;
 }
 
-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-footer {
+/* Footer */
+.main-footer {
+    background-color: var(--color-paper-white);
+    padding: var(--spacing-xl) 0;
+    margin-top: var(--spacing-2xl);
     text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-    border-top: 1px solid #eee;
-    color: #666;
+    border-top: 1px solid var(--color-grey-300);
+    color: var(--color-grey-500);
+    font-size: 0.875rem;
 }
+
+/* Utility */
+.text-spotlight { color: var(--color-spotlight-gold); }
+.text-royal { color: var(--color-royal-blue); }
+.text-teal { color: var(--color-teal); }
+.text-orange { color: var(--color-stage-orange); }
+
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
