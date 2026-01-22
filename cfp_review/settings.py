@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # 3rd Party
     "allauth",
     "allauth.account",
+    "neapolitan",
     # Local
     "proposals",
 ]

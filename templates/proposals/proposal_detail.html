@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-sm">
+    <div class="card {% if proposal.status == 'review_requested' %}status-review{% elif proposal.status == 'accepted' %}status-accepted{% elif proposal.status == 'rejected' %}status-rejected{% endif %}">
+        <div class="card-content">
+            <div class="row" style="justify-content: space-between; margin-bottom: var(--spacing-lg);">
+                <h1 style="margin: 0;">{{ proposal.title }}</h1>
+                <span class="btn btn-secondary" style="pointer-events: none; border: none; background-color: var(--color-backstage-grey); color: var(--color-ink-black);">
+                    {{ proposal.get_status_display }}
+                </span>
+            </div>
+
+            <div class="mb-xl">
+                <h3 class="form-label">Abstract</h3>
+                <div class="text-body" style="white-space: pre-wrap;">{{ proposal.abstract }}</div>
+            </div>
+
+            {% if proposal.tags.all %}
+            <div class="mb-xl">
+                <h3 class="form-label">Tags</h3>
+                <div class="checkbox-group">
+                    {% for tag in proposal.tags.all %}
+                    <span class="btn btn-secondary" style="font-size: 0.875rem; padding: 0.25rem 0.75rem; pointer-events: none;">
+                        {{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if user == proposal.author %}
+            <div class="mb-xl" style="padding-top: var(--spacing-lg); border-top: 1px solid var(--color-grey-300);">
+                <h3 class="form-label">Private Notes</h3>
+                <p class="form-help mb-md">Only visible to you</p>
+                <div style="background-color: #FEFCBF; padding: var(--spacing-md); border-radius: var(--border-radius-md); border: 1px solid #F6E05E;">
+                    {% if proposal.private_notes %}
+                        <div style="white-space: pre-wrap;">{{ proposal.private_notes }}</div>
+                    {% else %}
+                        <p class="text-gray-500 italic">No private notes.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="form-actions">
+                    {% if proposal.status == 'draft' %}
+                    <form method="post" action="{% url 'proposals:submit' proposal.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" style="background-color: var(--color-spotlight-gold); color: var(--color-ink-black); border: none;">
+                            Request Review
+                        </button>
+                    </form>
+                    {% endif %}
+
+                    <a href="{% url 'proposals:update' proposal.pk %}" class="btn btn-primary">
+                        Edit Proposal
+                    </a>
+                    <a href="{% url 'proposals:delete' proposal.pk %}" class="btn btn-secondary text-orange" style="border-color: var(--color-stage-orange); color: var(--color-stage-orange);">
+                        Delete
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row" style="margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid var(--color-grey-300); color: var(--color-grey-500); font-size: 0.875rem; justify-content: space-between;">
+                <span>Author: {{ proposal.author }}</span>
+                <span>Last updated: {{ proposal.updated_at|date:"M d, Y" }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

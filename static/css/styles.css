@@ -38,6 +38,116 @@
     --transition-base: all 0.2s ease-in-out;
 }
 
+/* Forms */
+.form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    color: var(--color-ink-black);
+}
+
+.form-control {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-ink-black);
+    background-color: var(--color-paper-white);
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-md);
+    transition: var(--transition-base);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-royal-blue);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.form-control::placeholder {
+    color: var(--color-grey-500);
+}
+
+/* Custom Select Styling */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23A0AEC0'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1em;
+    padding-right: 2.5rem;
+}
+
+select.form-control:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%233182CE'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Checkbox Group (Tags) */
+.checkbox-group ul,
+.checkbox-group > div {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.checkbox-group label {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-md);
+    background-color: var(--color-backstage-grey);
+    border: 1px solid var(--color-grey-300);
+    border-radius: var(--border-radius-full);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: var(--transition-base);
+    color: var(--color-ink-black);
+}
+
+.checkbox-group label:hover {
+    border-color: var(--color-royal-blue);
+    background-color: #fff;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: var(--spacing-xs);
+    accent-color: var(--color-royal-blue);
+    width: 1em;
+    height: 1em;
+}
+
+/* Optional: Highlight selected label if using modern CSS */
+.checkbox-group label:has(input:checked) {
+    background-color: rgba(49, 130, 206, 0.1);
+    border-color: var(--color-royal-blue);
+    color: var(--color-royal-blue);
+    font-weight: 500;
+}
+
+.form-help {
+    margin-top: var(--spacing-xs);
+    font-size: 0.875rem;
+    color: var(--color-grey-500);
+}
+
+.form-actions {
+    margin-top: var(--spacing-xl);
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
 /* Base Styles */
 * {
     box-sizing: border-box;
@@ -56,6 +166,7 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     color: var(--color-ink-black);
     margin-top: 0;
+    margin-bottom: var(--spacing-md);
 }
 
 a {
@@ -73,6 +184,12 @@ a:hover {
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 var(--spacing-md);
+}
+
+.container-sm {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Buttons */
@@ -158,7 +275,7 @@ a:hover {
 }
 
 .card-content {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl);
 }
 
 .card-title {
@@ -242,6 +359,7 @@ a:hover {
 
 .mt-lg { margin-top: var(--spacing-lg); }
 .mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
 
 /* Tabs */
 .tabs {

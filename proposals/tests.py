@@ -84,14 +84,14 @@ class ProposalViewTests(TestCase):
     def test_my_proposals_view_requires_login(self):
         from django.urls import reverse
 
-        response = self.client.get(reverse("proposals:proposal-list"))
+        response = self.client.get(reverse("proposals:list"))
         self.assertNotEqual(response.status_code, 200)
 
     def test_my_proposals_view_lists_own_proposals(self):
         from django.urls import reverse
 
         self.client.force_login(self.user)
-        response = self.client.get(reverse("proposals:proposal-list"))
+        response = self.client.get(reverse("proposals:list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Draft Proposal")
         self.assertContains(response, "Active Proposal")
@@ -101,7 +101,7 @@ class ProposalViewTests(TestCase):
         from django.urls import reverse
 
         self.client.force_login(self.user)
-        response = self.client.get(reverse("proposals:proposal-list") + "?status=draft")
+        response = self.client.get(reverse("proposals:list") + "?status=draft")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Draft Proposal")
         self.assertNotContains(response, "Active Proposal")
@@ -111,9 +111,78 @@ class ProposalViewTests(TestCase):
 
         self.client.force_login(self.user)
         response = self.client.get(
-            reverse("proposals:proposal-list") + "?status=review_requested"
+            reverse("proposals:list") + "?status=review_requested"
         )
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Draft Proposal")
         self.assertContains(response, "Active Proposal")
         self.assertNotContains(response, "Other Proposal")
+
+    def test_create_proposal(self):
+        from django.urls import reverse
+
+        self.client.force_login(self.user)
+        url = reverse("proposals:create")
+        data = {
+            "title": "New Proposal",
+            "abstract": "New Abstract",
+            "private_notes": "My notes",
+            "status": "draft",
+        }
+        response = self.client.post(url, data)
+        self.assertRedirects(response, reverse("proposals:list"))
+        self.assertEqual(Proposal.objects.filter(title="New Proposal").count(), 1)
+        proposal = Proposal.objects.get(title="New Proposal")
+        self.assertEqual(proposal.author, self.user)
+
+    def test_update_proposal(self):
+        from django.urls import reverse
+
+        self.client.force_login(self.user)
+        url = reverse("proposals:update", args=[self.p1.pk])
+        data = {
+            "title": "Updated Title",
+            "abstract": "Updated Abstract",
+            "status": "review_requested",
+        }
+        response = self.client.post(url, data)
+        self.assertRedirects(response, reverse("proposals:list"))
+        self.p1.refresh_from_db()
+        self.assertEqual(self.p1.title, "Updated Title")
+        self.assertEqual(self.p1.status, Proposal.Status.REVIEW_REQUESTED)
+
+    def test_update_proposal_permission(self):
+        from django.urls import reverse
+
+        # Try to update another user's proposal
+        self.client.force_login(self.user)
+        url = reverse("proposals:update", args=[self.p3.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)  # Forbidden
+
+    def test_detail_view(self):
+        from django.urls import reverse
+
+        self.client.force_login(self.user)
+        url = reverse("proposals:detail", args=[self.p1.pk])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.p1.title)
+        self.assertContains(response, self.p1.abstract)
+
+    def test_detail_private_notes_visibility(self):
+        from django.urls import reverse
+
+        # Add private notes to p1 (owned by user)
+        self.p1.private_notes = "Secret Notes"
+        self.p1.save()
+
+        # Author viewing own proposal
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("proposals:detail", args=[self.p1.pk]))
+        self.assertContains(response, "Secret Notes")
+
+        # Other user viewing the proposal
+        self.client.force_login(self.other_user)
+        response = self.client.get(reverse("proposals:detail", args=[self.p1.pk]))
+        self.assertNotContains(response, "Secret Notes")
