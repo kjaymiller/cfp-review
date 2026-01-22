@@ -1,6 +1,10 @@
 # CFP-Review
 
-A Django-based application serving as a **Speaker Portfolio and Mentorship Platform**. This system allows speakers to maintain a library of their talk proposals, refine them with private notes, and request feedback from a community of reviewers/mentors before submitting to real conferences.
+A Django-based application serving as a **Speaker Portfolio and Mentorship Platform**. 
+
+**Why this exists:** Unlike standard conference tools that focus on the event lifecycle, this is a centralized place for speakers to refine proposals (Drafts), request feedback from Mentors (Reviewers), and be discovered by Organizers.
+
+This system allows speakers to maintain a library of their talk proposals, refine them with private notes, and request feedback from a community of reviewers/mentors before submitting to real conferences.
 
 ## Features
 
@@ -48,7 +52,7 @@ The core entities defined in the system are:
 2.  **Database Setup:**
     Ensure your PostgreSQL database is running.
     ```sql
-    CREATE DATABASE cfp_db;
+    CREATE DATABASE defaultdb;
     ```
     *(Note: Adjust your `settings.py` or `.env` to point to this database)*
 

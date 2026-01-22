@@ -2,7 +2,7 @@ Table User {
   id integer [primary key]
   username varchar
   email varchar
-  groups varchar [note: "Reviewer role"]
+  groups varchar [note: "Reviewer, Organizer"]
 }
 
 Table Tag {
@@ -32,5 +32,12 @@ Table Review {
   reviewer_id integer [ref: > User.id]
   score integer [note: "-1, 0, 1"]
   feedback text
+  created_at timestamp
+}
+
+Table Selection {
+  id integer [primary key]
+  organizer_id integer [ref: > User.id]
+  proposal_id integer [ref: > Proposal.id]
   created_at timestamp
 }

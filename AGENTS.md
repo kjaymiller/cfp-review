@@ -28,3 +28,5 @@ This document defines the operational modes for the agent working on this projec
 
 ## Transition Protocol
 The agent must strictly adhere to the **Current Mode**. Transitioning from **PLAN** to **BUILD** requires explicit user authorization.
+
+**CRITICAL: The agent must NEVER switch modes autonomously. The agent must ALWAYS prompt the user and receive a specific command to switch modes.**

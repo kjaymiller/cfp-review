@@ -1,10 +1,14 @@
 # MERISE Analysis for CFP-Review (Speaker Portfolio Edition)
 
+## Project Rationale
+Unlike standard conference management tools, this system acts as a **Speaker Portfolio**. It is a centralized hub for speakers to refine proposals (Drafts), request feedback from Mentors (Reviewers), and be discovered by Organizers.
+
 ## 1. Dictionary of Data
-- **User**: Name, Email, Bio, Password, Roles (Speaker, Reviewer)
+- **User**: Name, Email, Bio, Password, Roles (Speaker, Reviewer, Organizer)
 - **Proposal**: Title, Abstract, Notes (Private), Status (Draft, Review Requested, Archived), Tags, Timestamp
 - **Review**: Score (-1, 0, +1), Feedback (Text), Timestamp
 - **Tag**: Name (e.g., Python, DevOps, Leadership)
+- **Selection**: Timestamp, Note (e.g., "Potential Keynote")
 
 ## 2. Conceptual Data Model (MCD)
 
@@ -12,15 +16,18 @@
 *   **USER**: Person interacting with the system.
     *   *Speaker Role*: Owns the proposals.
     *   *Reviewer Role*: Provides feedback/mentoring.
+    *   *Organizer Role*: Scouts and shortlists talks.
 *   **PROPOSAL**: A talk idea or abstract created by a Speaker.
 *   **REVIEW**: An evaluation/feedback record for a Proposal.
 *   **TAG**: A category label for a Proposal.
+*   **SELECTION**: A private bookmark/shortlist of a proposal by an organizer.
 
 ### Relationships
 *   **OWNS**: **USER** (0,n) ─── (1,1) **PROPOSAL**
 *   **EVALUATES**: **USER** (0,n) ─── (1,1) **REVIEW**
 *   **TARGETS**: **PROPOSAL** (0,n) ─── (1,1) **REVIEW**
 *   **CATEGORIZES**: **PROPOSAL** (0,n) ─── (0,n) **TAG**
+*   **SELECTS**: **USER** (Organizer) (0,n) ─── (0,n) **PROPOSAL**
 
 ## 3. Logical Data Model (MLD) / Relational Schema
 
@@ -29,7 +36,7 @@
 - `id` (PK)
 - `username`
 - `email`
-- `groups` (Used for "Reviewer" role designation)
+- `groups` ("Reviewer", "Organizer")
 
 ### Tag
 - `id` (PK)
@@ -50,12 +57,19 @@
 - `id` (PK)
 - `proposal_id` (FK -> Proposal)
 - `reviewer_id` (FK -> User)
-- `score` (Integer: -1, 0, 1) - *Optional sentiment*
-- `feedback` (Text) - *Detailed comments*
+- `score` (Integer: -1, 0, 1)
+- `feedback` (Text)
+- `created_at` (DateTime)
+
+### Selection
+*Represents an Organizer shortlisting a talk*
+- `id` (PK)
+- `organizer_id` (FK -> User)
+- `proposal_id` (FK -> Proposal)
 - `created_at` (DateTime)
 
 ## 4. Business Rules
 - **Privacy**: `Draft` proposals are visible ONLY to the Author.
-- **Discovery**: `Review Requested` proposals are visible to Authors and anyone in the `Reviewers` group.
+- **Discovery**: `Review Requested` proposals are visible to Authors, Reviewers, and Organizers.
 - **Reviewing**: A user cannot review their own proposal.
-- **Editability**: Reviews are generally final, but authors can update proposals based on feedback.
+- **Organizers**: Can see `Review Requested` proposals and existing reviews. Can "Select" (bookmark) proposals. Can also submit Reviews (same as Reviewers).
