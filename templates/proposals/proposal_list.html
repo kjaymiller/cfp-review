@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}My Proposals | CFP Review{% endblock %}
+
+{% block content %}
+<div class="row mb-lg">
+    <div class="col">
+        <h1>My Proposals</h1>
+    </div>
+    <div class="col text-right">
+        {# Placeholder for Create Proposal button if needed later #}
+        {# <a href="#" class="btn btn-primary">New Proposal</a> #}
+    </div>
+</div>
+
+<div class="tabs mb-lg">
+    <a href="{% url 'proposals:proposal_list' %}" class="tab {% if not request.GET.status %}active{% endif %}">All</a>
+    <a href="{% url 'proposals:proposal_list' %}?status=draft" class="tab {% if request.GET.status == 'draft' %}active{% endif %}">Drafts</a>
+    <a href="{% url 'proposals:proposal_list' %}?status=review_requested" class="tab {% if request.GET.status == 'review_requested' %}active{% endif %}">Review Requested</a>
+    <a href="{% url 'proposals:proposal_list' %}?status=archived" class="tab {% if request.GET.status == 'archived' %}active{% endif %}">Archived</a>
+</div>
+
+<div class="grid grid-3">
+    {% for proposal in proposals %}
+        {% include "components/card.html" with title=proposal.title status=proposal.status url="#" content=proposal.abstract meta=proposal.updated_at|date:"M d, Y" %}
+    {% empty %}
+        <div class="col-full text-center py-lg">
+            <p class="text-muted">No proposals found.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
