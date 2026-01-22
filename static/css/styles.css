@@ -1,0 +1,47 @@
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    color: #666;
+}
