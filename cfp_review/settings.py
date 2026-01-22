@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # 3rd Party
     "allauth",
     "allauth.account",
+    # Local
+    "proposals",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,5 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
