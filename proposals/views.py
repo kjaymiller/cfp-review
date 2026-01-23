@@ -21,6 +21,13 @@ class RoleRequestCreateView(LoginRequiredMixin, CreateView):
     template_name = "proposals/role_request_form.html"
     success_url = reverse_lazy("proposals:list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user_groups"] = list(
+            self.request.user.groups.values_list("name", flat=True)
+        )
+        return context
+
     def form_valid(self, form):
         # Check if user already has a pending request for this role
         existing_request = RoleRequest.objects.filter(

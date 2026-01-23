@@ -21,7 +21,10 @@
             <!-- Reviewer Option -->
             <button type="submit" name="role" value="reviewer" 
                     class="role-card"
-                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start; position: relative;">
+                {% if "Reviewer" in user_groups %}
+                <span style="position: absolute; top: 1rem; right: 1rem; background-color: var(--color-teal); color: white; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500;">Current Role</span>
+                {% endif %}
                 <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
                 <h2 style="margin-top: 0; margin-bottom: 0.5rem;">Reviewer</h2>
                 <p style="color: #666; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">
@@ -33,7 +36,10 @@
             <!-- Organizer Option -->
             <button type="submit" name="role" value="organizer" 
                     class="role-card"
-                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 2rem; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; align-items: flex-start; position: relative;">
+                {% if "Organizer" in user_groups %}
+                <span style="position: absolute; top: 1rem; right: 1rem; background-color: var(--color-teal); color: white; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 500;">Current Role</span>
+                {% endif %}
                 <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
                 <h2 style="margin-top: 0; margin-bottom: 0.5rem;">Organizer</h2>
                 <p style="color: #666; line-height: 1.5; margin-bottom: 1.5rem; flex-grow: 1;">
