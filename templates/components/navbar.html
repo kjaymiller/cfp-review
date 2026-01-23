@@ -7,7 +7,7 @@
         <ul class="nav-links">
             {% if user.is_authenticated %}
                 <li><a href="{% url 'proposals:list' %}">My Proposals</a></li>
-                <li>Hello, {{ user.username }}</li>
+                <li><a href="{% url 'users:settings' %}">Settings</a></li>
                 <li>
                     <form method="post" action="{% url 'account_logout' %}" style="display: inline;">
                         {% csrf_token %}
