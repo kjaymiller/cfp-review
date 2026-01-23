@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "neapolitan",
     # Local
     "proposals",
+    "users",
 ]
 
 MIDDLEWARE = [

@@ -67,7 +67,7 @@ Highly legible, professional sans-serif for reading feedback and drafting propos
 *   **Shadows**: "Lifted" shadow (`box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1)`) to make them feel like physical objects on a desk.
 
 ### Buttons
-*   **Primary**: Solid "Royal Blue" with a slight "glow" on hover. Pill-shaped (rounded full).
+*   **Primary**: Solid "Royal Blue" with a slight "glow" on hover. Rounded corners (match cards).
 *   **Secondary**: Outline with "Spotlight Gold" or "Teal".
 
 ### Navigation

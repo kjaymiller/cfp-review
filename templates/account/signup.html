@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign Up" %}{% endblock %}
+
+{% block content %}
+<div class="container-sm auth-container">
+    <div class="auth-card">
+        <h1 style="text-align: center; margin-bottom: var(--spacing-lg);">{% trans "Join the Stage" %}</h1>
+        
+        <p style="text-align: center; color: var(--color-grey-500); margin-bottom: var(--spacing-xl);">
+            {% trans "Create your account to start submitting proposals." %}
+        </p>
+
+        <form class="signup auth-form" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="alert alert-error" style="color: var(--color-stage-orange); margin-bottom: var(--spacing-md); padding: 0.5rem; background: rgba(221, 107, 32, 0.1); border-radius: 4px;">
+                {% for error in form.non_field_errors %}
+                    <p style="margin: 0;">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <div class="form-help">{{ field.help_text|safe }}</div>
+                {% endif %}
+                {% if field.errors %}
+                <div style="color: var(--color-stage-orange); font-size: 0.875rem; margin-top: var(--spacing-xs);">
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+
+            <div class="form-actions" style="flex-direction: column; gap: var(--spacing-md); margin-top: var(--spacing-xl);">
+                <button class="btn btn-primary" type="submit" style="width: 100%; justify-content: center;">{% trans "Sign Up" %}</button>
+                
+                <p style="text-align: center; font-size: 0.875rem; margin: 0; color: var(--color-grey-500);">
+                    {% trans "Already have an account?" %} 
+                    <a href="{% url 'account_login' %}" style="font-weight: 500;">{% trans "Log In" %}</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
