@@ -30,6 +30,18 @@
                 </div>
                 {% endfor %}
                 
+                <div class="form-group">
+                    <label class="form-label">Roles</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                        {% for group in user.groups.all %}
+                            <span style="background: var(--color-backstage-grey); border: 1px solid var(--color-grey-300); padding: 0.25rem 0.75rem; border-radius: var(--border-radius-full); font-size: 0.875rem;">{{ group.name }}</span>
+                        {% empty %}
+                            <span style="color: var(--color-grey-500); font-style: italic;">Speaker (Default)</span>
+                        {% endfor %}
+                        <a href="{% url 'proposals:request_role' %}" style="font-size: 0.875rem; margin-left: 0.5rem;">Request a role</a>
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                     <a href="{% url 'account_change_password' %}" class="btn btn-secondary">Change Password</a>
