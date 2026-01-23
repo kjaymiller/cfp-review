@@ -26,6 +26,11 @@ class RoleRequestCreateView(LoginRequiredMixin, CreateView):
         context["user_groups"] = list(
             self.request.user.groups.values_list("name", flat=True)
         )
+        context["pending_roles"] = list(
+            RoleRequest.objects.filter(
+                user=self.request.user, status=RoleRequest.Status.PENDING
+            ).values_list("role", flat=True)
+        )
         return context
 
     def form_valid(self, form):
